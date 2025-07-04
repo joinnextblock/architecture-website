@@ -12,29 +12,93 @@ This creates a unique digital archaeology where you can literally walk through n
 
 Architecture uses four key engagement metrics to determine a building's physical characteristics:
 
-- **Foundation/Footprint (Reposts)**: Building size on 4x4 tile lot (1-16 tiles)
-- **Height (Comments)**: Number of floors (1-21, capped at Bitcoin's 21M reference)
+- **Foundation/Footprint (Reposts)**: Building size on 3x3 tile lot (1-3 tiles)
+- **Height (Comments)**: Number of floors using Bitcoin scarcity scaling
 - **Windows (Reactions)**: Number of windows per floor (engagement visibility)
 - **Greenery (Zaps)**: Amount of landscaping around building (economic appreciation)
 
+## How does the foundation positioning system work?
+
+Buildings are positioned using a blockchain-style sequential system where each lot's building placement depends on the previous lot's state:
+
+### Foundation Positioning Rules
+- **1-tile foundation**: Always centered (X = 1)
+- **2-tile foundation**: Alternates between left-aligned (X = 0,1) and right-aligned (X = 1,2) based on previous lot
+- **3-tile foundation**: Always fills entire row (X = 0,1,2)
+
+### Complete Foundation Examples
+```
+1. 1→1: [   ][🏢][   ] → [   ][🏢][   ]    (center → center)
+2. 1→2: [   ][🏢][   ] → [   ][🏢][🏢]    (center → right)
+3. 1→3: [   ][🏢][   ] → [🏢][🏢][🏢]    (center → full)
+4. 2L→1: [🏢][🏢][   ] → [   ][🏢][   ]   (left → center)
+5. 2L→2: [🏢][🏢][   ] → [   ][🏢][🏢]   (left → right)
+6. 2L→3: [🏢][🏢][   ] → [🏢][🏢][🏢]   (left → full)
+7. 2R→1: [   ][🏢][🏢] → [   ][🏢][   ]   (right → center)
+8. 2R→2: [   ][🏢][🏢] → [🏢][🏢][   ]   (right → left)
+9. 2R→3: [   ][🏢][🏢] → [🏢][🏢][🏢]   (right → full)
+10. 3→1: [🏢][🏢][🏢] → [   ][🏢][   ]   (full → center)
+11. 3→2: [🏢][🏢][🏢] → [   ][🏢][🏢]   (full → right)
+12. 3→3: [🏢][🏢][🏢] → [🏢][🏢][🏢]   (full → full)
+```
+
+This creates a deterministic but dynamic positioning system where 2-tile buildings create alternating left/right patterns, generating visual rhythm across the skyline.
+
 ## How is building height calculated?
 
-Building height follows a unique scaling system that reflects Bitcoin's scarcity principle:
+Building heights use a Bitcoin-inspired scarcity model with exponential scaling:
 
-- **Comments 1-10**: Linear scaling (1 comment = 1 floor)
-- **Comments 11-21**: Exponential scaling (increasingly difficult to achieve additional floors)
-- **Comments 21+**: Capped at 21 floors (Bitcoin's 21M reference)
+### Comment-to-Floor Thresholds
+- **Floors 1-10**: 10 comments per tile
+- **Floors 11-21**: 100 comments per tile (exponential scarcity)
+- **Foundation**: Always filled (determined by reposts)
 
-**Example**: Post with 15 comments
-- Linear floors: 10 (comments 1-10)
-- Exponential floors: 2 (comments 11-15 compressed)
-- **Total building height: 12 floors**
+### Height Examples by Foundation Width
+
+**1-tile foundation:**
+```
+8 comments:   Foundation only
+18 comments:  Foundation + 1 floor
+98 comments:  Foundation + 9 floors
+108 comments: Foundation + 10 floors
+208 comments: Foundation + 10 floors + 1 tile of Floor 11
+1108 comments: Foundation + 20 floors (rare skyscraper!)
+```
+
+**2-tile foundation:**
+```
+15 comments: Foundation only
+25 comments: Foundation + 1 tile of Floor 1
+35 comments: Foundation + 2 tiles of Floor 1 (complete floor)
+215 comments: Foundation + 10 floors + 1 tile of Floor 11
+2215 comments: Foundation + 20 floors (mega skyscraper!)
+```
+
+**3-tile foundation:**
+```
+25 comments: Foundation only
+35 comments: Foundation + 1 tile of Floor 1
+65 comments: Foundation + 3 tiles of Floor 1 (complete floor)
+595 comments: Foundation + 10 complete floors
+3595 comments: Foundation + 20 complete floors (legendary monument!)
+```
+
+### Partial Floor Filling
+
+Individual tiles within a floor can be filled independently. For example, a 2-tile foundation with 25 comments would show:
+```
+[   ][   ][   ]  ← Empty Floor 2
+[🏢][   ][   ]  ← Partial Floor 1 (1 tile filled)
+[🏢][🏢][   ]  ← Foundation (complete)
+```
+
+This system makes viral posts into towering architectural monuments while simple interactions remain as cottages, creating a permanent visual hierarchy of community engagement.
 
 ## How is the city organized?
 
 NextBlock City follows a hierarchical urban planning system:
 
-- **Lot**: 4x4 tiles (1 building)
+- **Lot**: 3x3 tiles (1 building)
 - **Block**: 4x4 lots (16 buildings)  
 - **Neighborhood**: 4x4 blocks (256 buildings)
 - **District**: 4x4 neighborhoods (4,096 buildings)
@@ -103,4 +167,4 @@ The result is a city that serves as both a social graph and an archaeological re
 
 ---
 
-*Learn more about NextBlock City's temporal system at [observatory.nextblock.city](https://observatory.nextblock.city)*◊
+*Learn more about NextBlock City's temporal system at [observatory.nextblock.city](https://observatory.nextblock.city)*
